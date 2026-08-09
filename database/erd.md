@@ -1,18 +1,18 @@
+```mermaid
 ---
 config:
   theme: forest
   look: classic
 ---
 erDiagram
-	direction TB
 	STUDENT {
 		string id PK ""  
 		string name  ""  
 		int monthlyRate  ""  
 		int cycleLengthDays  "default 12"  
 		string guardianPhone  "nullable" 
-		string   address              "nullable"
-        string   subject              "nullable" 
+		string address  "nullable"
+		string subject  "nullable" 
 		string scheduleDays  "nullable — comma-sep weekdays"  
 		string scheduleTime  "nullable — local time HH:mm"  
 		int scheduleDuration  "nullable — minutes"  
@@ -30,16 +30,16 @@ erDiagram
 		date settledAt  "nullable"  
 	}
 
-	 CLASS_DAY {
-        string   id               PK
-        string   studentId        FK   "UK: paired with date"
-        string   cycleId          FK
-        date     date                 "local calendar date (UK: paired with studentId)"
-        string   status               "SCHEDULED | HELD | NOT_HELD"
-        string   source               "mark Today | yesterday | tomorrow | calendar "
-        string   note                 "nullable"
-        datetime createdAt
-    }
+	CLASS_DAY {
+		string id PK ""
+		string studentId FK "UK: paired with date"
+		string cycleId FK ""
+		date date  "local calendar date (UK: paired with studentId)"
+		string status  "SCHEDULED | HELD | NOT_HELD"
+		string source  "mark Today | yesterday | tomorrow | calendar"
+		string note  "nullable"
+		datetime createdAt  ""
+	}
 
 	SETTLEMENT {
 		string id PK ""  
@@ -59,3 +59,4 @@ erDiagram
 	STUDENT||--o{SETTLEMENT:"has"
 	CYCLE||--o{CLASS_DAY:"contains"
 	CYCLE||--o|SETTLEMENT:"settled by"
+```
