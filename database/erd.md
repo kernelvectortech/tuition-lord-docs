@@ -3,6 +3,8 @@
 config:
   theme: forest
   look: classic
+  themeVariables:
+    lineColor: "#90EE90"
 ---
 erDiagram
 	STUDENT {
