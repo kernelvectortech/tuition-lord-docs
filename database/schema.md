@@ -99,12 +99,10 @@ CREATE TABLE settlement (
     id               TEXT     PRIMARY KEY,
     student_id       TEXT     NOT NULL REFERENCES student(id),
     cycle_id         TEXT     NOT NULL UNIQUE REFERENCES cycle(id),  -- at most one settlement per cycle
-    type             TEXT     NOT NULL
-                              CHECK (type IN ('FULL', 'PARTIAL')),
     sessions_counted INTEGER  NOT NULL,
     amount           INTEGER  NOT NULL,                 -- stored in minor units (poisha)
-    payment          TEXT     NOT NULL DEFAULT 'DUE'
-                              CHECK (payment IN ('DUE', 'COLLECTED')),
+    payment_status   TEXT     NOT NULL DEFAULT 'DUE'
+                              CHECK (payment_status IN ('DUE', 'COLLECTED', 'PARTIALLY_COLLECTED')),
     collected_at     TEXT,                              -- nullable, ISO-8601 datetime
     settled_at       TEXT     NOT NULL,                 -- ISO-8601 datetime
     note             TEXT                               -- nullable
