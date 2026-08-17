@@ -20,6 +20,7 @@ CREATE TABLE student (
     address                 TEXT,                         -- nullable
     subject                 TEXT,                         -- nullable
     created_at              TEXT    NOT NULL,             -- ISO-8601 datetime
+    updated_at              TEXT    NOT NULL,             -- ISO-8601 datetime
     is_archived             INTEGER NOT NULL DEFAULT 0    -- 0 = active, 1 = archived (soft delete)
 );
 ```
@@ -38,6 +39,7 @@ CREATE TABLE cycle (
     status           TEXT    NOT NULL DEFAULT 'ACTIVE'
                              CHECK (status IN ('ACTIVE', 'SETTLED')),
     settled_at       TEXT,                              -- nullable, ISO-8601 datetime
+    updated_at       TEXT    NOT NULL,                  -- ISO-8601 datetime
 
     UNIQUE (student_id, idx)                            -- one index value per student
 );
@@ -83,6 +85,7 @@ CREATE TABLE student_schedule (
                         CHECK (day_of_week IN ('MON','TUE','WED','THU','FRI','SAT','SUN')),
     start_time  TEXT    NOT NULL,                           -- local time HH:mm
     duration    INTEGER NOT NULL,                           -- minutes
+    updated_at  TEXT    NOT NULL,                           -- ISO-8601 datetime
 
     UNIQUE (student_id, day_of_week)                        -- one time-slot per weekday per student
 );
@@ -105,6 +108,7 @@ CREATE TABLE settlement (
                               CHECK (payment_status IN ('DUE', 'COLLECTED', 'PARTIALLY_COLLECTED')),
     collected_at     TEXT,                              -- nullable, ISO-8601 datetime
     settled_at       TEXT     NOT NULL,                 -- ISO-8601 datetime
+    updated_at       TEXT     NOT NULL,                 -- ISO-8601 datetime
     note             TEXT                               -- nullable
 );
 
