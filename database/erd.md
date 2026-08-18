@@ -18,6 +18,7 @@ erDiagram
 		string address  "nullable"
 		string subject  "nullable" 
 		datetime createdAt  ""  
+		datetime updatedAt  ""  
 		bool isArchived  ""  
 	}
 
@@ -29,6 +30,7 @@ erDiagram
 		int targetSessions  "snapshot of cycleLengthSessions at creation"  
 		string status  "ACTIVE | SETTLED"  
 		datetime settledAt  "nullable"  
+		datetime updatedAt  ""  
 	}
 
 	CLASS_DAY {
@@ -50,18 +52,19 @@ erDiagram
 		string dayOfWeek  "MON|TUE|WED|THU|FRI|SAT|SUN (UK: paired with studentId)"
 		string startTime  "local time HH:mm"
 		int duration  "minutes"
+		datetime updatedAt  ""
 	}
 
 	SETTLEMENT {
 		string id PK ""  
 		string studentId FK ""  
 		string cycleId FK ""  
-		string type  "FULL | PARTIAL"  
 		int sessionsCounted  ""  
 		int amount  "minor units (poisha)"  
-		string payment  "DUE | COLLECTED"  
+		string paymentStatus  "DUE | COLLECTED | PARTIALLY_COLLECTED"  
 		datetime collectedAt  "nullable"  
 		datetime settledAt  ""  
+		datetime updatedAt  ""  
 		string note  "nullable"  
 	}
 

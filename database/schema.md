@@ -20,6 +20,7 @@ CREATE TABLE student (
     address                 TEXT,                         -- nullable
     subject                 TEXT,                         -- nullable
     created_at              TEXT    NOT NULL,             -- ISO-8601 datetime
+    updated_at              TEXT    NOT NULL,             -- ISO-8601 datetime
     is_archived             INTEGER NOT NULL DEFAULT 0    -- 0 = active, 1 = archived (soft delete)
 );
 ```
@@ -38,6 +39,7 @@ CREATE TABLE cycle (
     status           TEXT    NOT NULL DEFAULT 'ACTIVE'
                              CHECK (status IN ('ACTIVE', 'SETTLED')),
     settled_at       TEXT,                              -- nullable, ISO-8601 datetime
+    updated_at       TEXT    NOT NULL,                  -- ISO-8601 datetime
 
     UNIQUE (student_id, idx)                            -- one index value per student
 );
@@ -83,6 +85,7 @@ CREATE TABLE student_schedule (
                         CHECK (day_of_week IN ('MON','TUE','WED','THU','FRI','SAT','SUN')),
     start_time  TEXT    NOT NULL,                           -- local time HH:mm
     duration    INTEGER NOT NULL,                           -- minutes
+    updated_at  TEXT    NOT NULL,                           -- ISO-8601 datetime
 
     UNIQUE (student_id, day_of_week)                        -- one time-slot per weekday per student
 );
@@ -99,14 +102,13 @@ CREATE TABLE settlement (
     id               TEXT     PRIMARY KEY,
     student_id       TEXT     NOT NULL REFERENCES student(id),
     cycle_id         TEXT     NOT NULL UNIQUE REFERENCES cycle(id),  -- at most one settlement per cycle
-    type             TEXT     NOT NULL
-                              CHECK (type IN ('FULL', 'PARTIAL')),
     sessions_counted INTEGER  NOT NULL,
     amount           INTEGER  NOT NULL,                 -- stored in minor units (poisha)
-    payment          TEXT     NOT NULL DEFAULT 'DUE'
-                              CHECK (payment IN ('DUE', 'COLLECTED')),
+    payment_status   TEXT     NOT NULL DEFAULT 'DUE'
+                              CHECK (payment_status IN ('DUE', 'COLLECTED', 'PARTIALLY_COLLECTED')),
     collected_at     TEXT,                              -- nullable, ISO-8601 datetime
     settled_at       TEXT     NOT NULL,                 -- ISO-8601 datetime
+    updated_at       TEXT     NOT NULL,                 -- ISO-8601 datetime
     note             TEXT                               -- nullable
 );
 
